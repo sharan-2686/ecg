@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+numpy
+scipy
+scikit-learn
+tensorflow
+joblib
+gdown
