@@ -3,15 +3,23 @@ import numpy as np
 import joblib
 from tensorflow.keras.models import load_model
 from preprocessing import preprocess_ecg
+from modelloader import model, scaler
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="ECG Edge-AI Backend")
 
-# ---------- Load model & scaler ----------
-model = load_model("model/model.h5")
-scaler = joblib.load("model/scaler.pkl")
 
 latest_prediction = None
+app = FastAPI()
 
+# CORS configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],        # 🔴 change to frontend URL in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # ---------- ESP32 / Sensor → Backend ----------
 @app.post("/ingest")
 def ingest_ecg(data: dict):
